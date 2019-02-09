@@ -35,7 +35,7 @@ class _BookstoreFrontPageState extends State<BookstoreFrontPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+
       drawer: Drawer(
         child: Column(
           children: <Widget>[

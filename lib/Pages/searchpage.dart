@@ -22,7 +22,7 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          String url = "https://ayushiitr.serveo.net/getRecommendation?";
+          String url = "https://ayushiitr.serveo.net/getRecommendation?mode=1";
 
           for (int i = 0; i < selectedList.length; i++) {
             if (selectedList[i]) {
@@ -42,8 +42,8 @@ class _SearchPageState extends State<SearchPage> {
           if (jsondata["ids"].length != 0)
             for (int i = 0; i < jsondata["ids"].length; i++) {
               for (int j = 0; j < booklist.length; j++) {
-                if(booklist[j].Id == jsondata["ids"][i].toString()){
-                  print("Got ${booklist[j].Title}");
+                if (booklist[j].Id == jsondata["ids"][i].toString()) {
+                  print("Got ${booklist[j].Id}");
                   results.add(booklist[j]);
                   break;
                 }
@@ -56,26 +56,78 @@ class _SearchPageState extends State<SearchPage> {
                         resultList: results,
                       )));
         },
-        label: Text("Search"),
+        label: Text("Search\nSimilar"),
+        heroTag: null,
         icon: Icon(Icons.search),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: Color(0xFF260000),
-      body: ListView(
-        children: [
+      body: Stack(
+        children: <Widget>[
+          ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  "Which of the following would you like similar books....",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Column(
+                children: booksToCols(mybooks),
+              )
+            ],
+          ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(
-              "Which of the following would you like similar books....",
-              style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            padding: const EdgeInsets.all(15.0),
+            child: Align(
+              alignment: Alignment(-1.0, 1.0),
+              child: FloatingActionButton.extended(
+                backgroundColor: Colors.redAccent,
+                onPressed: () async {
+                  String url = "https://ayushiitr.serveo.net/getRecommendation?mode=2";
+
+                  for (int i = 0; i < selectedList.length; i++) {
+                    if (selectedList[i]) {
+                      url += "&id=${mybooks[i].Id}";
+                    }
+                  }
+
+                  var resp = await get(url);
+                  print("Response ${resp.body}");
+
+                  var jsondata = json.decode(resp.body);
+
+                  print(jsondata["ids"]);
+
+                  List<Book> results = [];
+
+                  if (jsondata["ids"].length != 0)
+                    for (int i = 0; i < jsondata["ids"].length; i++) {
+                      for (int j = 0; j < booklist.length; j++) {
+                        if (booklist[j].Id == jsondata["ids"][i].toString()) {
+                          print("Got ${booklist[j].Id}");
+                          results.add(booklist[j]);
+                          break;
+                        }
+                      }
+                    }
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ResultsPage(
+                            resultList: results,
+                          )));
+                },
+                icon: Icon(Icons.search),
+                label: Text("Search\nDifferent"),
+                heroTag: false,
               ),
             ),
-          ),
-          Column(
-            children: booksToCols(mybooks),
           )
         ],
       ),
