@@ -1,16 +1,13 @@
+import 'package:bookshopapp/model/yourbooks.dart';
 import 'package:bookshopapp/model/book.dart';
 import 'package:flutter/material.dart';
 
-class ResultsPage extends StatefulWidget {
-  List<Book> resultList;
-
-  ResultsPage({@required this.resultList});
-
+class AccountBooksPage extends StatefulWidget {
   @override
-  _ResultsPageState createState() => _ResultsPageState();
+  _AccountBooksPageState createState() => _AccountBooksPageState();
 }
 
-class _ResultsPageState extends State<ResultsPage> {
+class _AccountBooksPageState extends State<AccountBooksPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +19,7 @@ class _ResultsPageState extends State<ResultsPage> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                "We Recommend the following books....",
+                "You have read the following books....",
                 style: TextStyle(
                   fontSize: 20.0,
                   color: Colors.white,
@@ -38,10 +35,11 @@ class _ResultsPageState extends State<ResultsPage> {
                     child: Row(
                       children: <Widget>[
                         Image.network(
-                          widget.resultList[i].ImgUrl,
+                          mybooks[i].ImgUrl,
                           height: 200.0,
                           width: 125.0,
                           fit: BoxFit.cover,
+
                         ),
                         Padding(
                           padding:
@@ -53,18 +51,18 @@ class _ResultsPageState extends State<ResultsPage> {
                             child: Column(
                               children: <Widget>[
                                 Text(
-                                  widget.resultList[i].Title,
+                                  mybooks[i].Title,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Row(
                                   children: <Widget>[
-                                    (widget.resultList[i].Stars >= 1)
+                                    (mybooks[i].Stars >= 1)
                                         ? Icon(
                                             Icons.star,
                                             size: 15.0,
                                             color: Colors.yellow,
                                           )
-                                        : (widget.resultList[i].Stars == 0.5)
+                                        : (mybooks[i].Stars == 0.5)
                                             ? Icon(
                                                 Icons.star_half,
                                                 size: 15.0,
@@ -75,13 +73,13 @@ class _ResultsPageState extends State<ResultsPage> {
                                                 size: 15.0,
                                                 color: Colors.yellow,
                                               ),
-                                    (widget.resultList[i].Stars >= 2)
+                                    (mybooks[i].Stars >= 2)
                                         ? Icon(
                                             Icons.star,
                                             size: 15.0,
                                             color: Colors.yellow,
                                           )
-                                        : (widget.resultList[i].Stars == 1.5)
+                                        : (mybooks[i].Stars == 1.5)
                                             ? Icon(
                                                 Icons.star_half,
                                                 size: 15.0,
@@ -92,13 +90,13 @@ class _ResultsPageState extends State<ResultsPage> {
                                                 size: 15.0,
                                                 color: Colors.yellow,
                                               ),
-                                    (widget.resultList[i].Stars >= 3)
+                                    (mybooks[i].Stars >= 3)
                                         ? Icon(
                                             Icons.star,
                                             size: 15.0,
                                             color: Colors.yellow,
                                           )
-                                        : (widget.resultList[i].Stars == 2.5)
+                                        : (mybooks[i].Stars == 2.5)
                                             ? Icon(
                                                 Icons.star_half,
                                                 size: 15.0,
@@ -109,13 +107,13 @@ class _ResultsPageState extends State<ResultsPage> {
                                                 size: 15.0,
                                                 color: Colors.yellow,
                                               ),
-                                    (widget.resultList[i].Stars >= 4)
+                                    (mybooks[i].Stars >= 4)
                                         ? Icon(
                                             Icons.star,
                                             size: 15.0,
                                             color: Colors.yellow,
                                           )
-                                        : (widget.resultList[i].Stars == 3.5)
+                                        : (mybooks[i].Stars == 3.5)
                                             ? Icon(
                                                 Icons.star_half,
                                                 size: 15.0,
@@ -126,13 +124,13 @@ class _ResultsPageState extends State<ResultsPage> {
                                                 size: 15.0,
                                                 color: Colors.yellow,
                                               ),
-                                    (widget.resultList[i].Stars >= 5)
+                                    (mybooks[i].Stars >= 5)
                                         ? Icon(
                                             Icons.star,
                                             size: 15.0,
                                             color: Colors.yellow,
                                           )
-                                        : (widget.resultList[i].Stars == 4.5)
+                                        : (mybooks[i].Stars == 4.5)
                                             ? Icon(
                                                 Icons.star_half,
                                                 size: 15.0,
@@ -150,7 +148,8 @@ class _ResultsPageState extends State<ResultsPage> {
                                     style: TextStyle(fontSize: 12.0),
                                     children: [
                                       TextSpan(
-                                        text: widget.resultList[i].Description
+                                        text: mybooks[i]
+                                            .Description
                                             .substring(0, 175),
                                         style: TextStyle(color: Colors.black),
                                       ),
@@ -169,7 +168,7 @@ class _ResultsPageState extends State<ResultsPage> {
                   ),
               shrinkWrap: true,
               physics: ScrollPhysics(),
-              itemCount: widget.resultList.length,
+              itemCount: mybooks.length,
             ),
           ],
         ),

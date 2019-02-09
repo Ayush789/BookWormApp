@@ -2,6 +2,7 @@ import 'package:bookshopapp/Pages/bookpage.dart';
 import 'package:bookshopapp/Pages/searchpage.dart';
 import 'package:bookshopapp/model/book.dart';
 import 'package:bookshopapp/model/data.dart';
+import 'package:bookshopapp/Pages/accountbooks.dart';
 
 import 'package:flutter/material.dart';
 
@@ -34,6 +35,7 @@ class _BookstoreFrontPageState extends State<BookstoreFrontPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       drawer: Drawer(
         child: Column(
           children: <Widget>[
@@ -48,6 +50,9 @@ class _BookstoreFrontPageState extends State<BookstoreFrontPage> {
               ),
             ),
             ListTile(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AccountBooksPage()));
+              },
               leading: Icon(Icons.book),
               title: Text("Your Books"),
             )
@@ -196,6 +201,7 @@ class _BookstoreFrontPageState extends State<BookstoreFrontPage> {
                                   booklist[i].ImgUrl,
                                   height: 200.0,
                                   width: 125.0,
+                                  fit: BoxFit.cover,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(

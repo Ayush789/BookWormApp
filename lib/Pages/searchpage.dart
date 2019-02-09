@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:bookshopapp/Pages/bookpage.dart';
 import 'package:bookshopapp/Pages/results.dart';
 import 'package:bookshopapp/model/book.dart';
+import 'package:bookshopapp/model/yourbooks.dart';
 import 'package:flutter/material.dart';
 import 'package:bookshopapp/model/data.dart';
-
+import 'package:http/http.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -12,27 +15,45 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   double length = 5000.0;
-  List<bool> selectedList = List<bool>.filled(booklist.length, false);
+  List<bool> selectedList = List<bool>.filled(mybooks.length, false);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          String url = "http://goole.com?";
+        onPressed: () async {
+          String url = "https://ayushiitr.serveo.net/getRecommendation?";
 
           for (int i = 0; i < selectedList.length; i++) {
             if (selectedList[i]) {
-              url += "&id=${booklist[i].Id}";
+              url += "&id=${mybooks[i].Id}";
             }
           }
 
-          print(url);
+          var resp = await get(url);
+          print("Response ${resp.body}");
+
+          var jsondata = json.decode(resp.body);
+
+          print(jsondata["ids"]);
+
+          List<Book> results = [];
+
+          if (jsondata["ids"].length != 0)
+            for (int i = 0; i < jsondata["ids"].length; i++) {
+              for (int j = 0; j < booklist.length; j++) {
+                if(booklist[j].Id == jsondata["ids"][i].toString()){
+                  print("Got ${booklist[j].Title}");
+                  results.add(booklist[j]);
+                  break;
+                }
+              }
+            }
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => ResultsPage(
-                        resultList: booklist,
+                        resultList: results,
                       )));
         },
         label: Text("Search"),
@@ -54,7 +75,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           Column(
-            children: booksToCols(booklist),
+            children: booksToCols(mybooks),
           )
         ],
       ),
@@ -69,7 +90,7 @@ class _SearchPageState extends State<SearchPage> {
     for (int i = 0; i < numRows; i++) {
       List<Widget> curlist = [];
       for (int j = 0; j < 2; j++) {
-        if (i * 2 + j < booklist.length)
+        if (i * 2 + j < mybooks.length)
           curlist.add(
             Container(
               width: 150,
@@ -86,7 +107,7 @@ class _SearchPageState extends State<SearchPage> {
                 child: Stack(
                   children: <Widget>[
                     Image.network(
-                      booklist[i * 2 + j].ImgUrl,
+                      mybooks[i * 2 + j].ImgUrl,
                       fit: BoxFit.cover,
                     ),
                     Row(
