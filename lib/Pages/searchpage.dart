@@ -8,50 +8,87 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  double length = 5000.0;
+  List<bool> selectedList = List<bool>.filled(booklist.length, false);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          String url="http://goole.com?";
+
+          for(int i=0;i<selectedList.length;i++){
+            if(selectedList[i]){
+              url+="&id=${booklist[i].Id}";
+            }
+          }
+
+          print(url);
+        },
+        label: Text("Search"),
+        icon: Icon(Icons.search),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: Color(0xFF260000),
       body: ListView(
-        children: <Widget>[
-          Text(
-            "Select Books....",
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          Container(
-            height: 150.0,
-            child: ListView.builder(
-              itemBuilder: (context, i) => InkWell(
-                onTap: () {
-
-                },
-                child: Container(
-                  width: 100.0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Stack(
-                      children: <Widget>[
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            Image.network(
-                              booklist[i].ImgUrl,
-                              fit: BoxFit.fill,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              scrollDirection: Axis.horizontal,
-              itemCount: booklist.length,
-            ),
-          ),
-        ],
+        children: booksToCols(booklist),
       ),
     );
+  }
+
+  List<Widget> booksToCols(List<Book> books) {
+    List<Widget> ans = [];
+
+    int numRows = (books.length / 2).ceil();
+
+    for (int i = 0; i < numRows; i++) {
+      List<Widget> curlist = [];
+      for (int j = 0; j < 2; j++) {
+        if (i * 2 + j < booklist.length)
+          curlist.add(
+            Container(
+              width: 150,
+              height: 270,
+              child: InkWell(
+                onTap: () {
+                  print(selectedList);
+                  if (selectedList[2 * i + j])
+                    selectedList[2 * i + j] = false;
+                  else
+                    selectedList[2 * i + j] = true;
+                  setState(() {});
+                },
+                child: Stack(
+                  children: <Widget>[
+                    Image.network(
+                      booklist[i * 2 + j].ImgUrl,
+                      fit: BoxFit.cover,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        (selectedList[2 * i + j])
+                            ? Icon(
+                                Icons.check_circle,
+                                color: Colors.blue,
+                              )
+                            : Container(),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+      }
+
+      ans.add(Row(
+        children: curlist,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      ));
+    }
+    return ans;
   }
 }
