@@ -1,5 +1,7 @@
 import 'package:bookshopapp/model/book.dart';
 import 'package:flutter/material.dart';
+import 'package:bookshopapp/model/data.dart';
+
 
 class BookPage extends StatefulWidget {
   Book book;

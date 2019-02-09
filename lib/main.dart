@@ -1,6 +1,8 @@
 import 'package:bookshopapp/Pages/bookpage.dart';
 import 'package:bookshopapp/Pages/searchpage.dart';
 import 'package:bookshopapp/model/book.dart';
+import 'package:bookshopapp/model/data.dart';
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -36,10 +38,14 @@ class _BookstoreFrontPageState extends State<BookstoreFrontPage> {
         child: Column(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              accountName: Text("Ruchi Soni",style: TextStyle(fontSize: 22.0),),
+              accountName: Text(
+                "Ruchi Soni",
+                style: TextStyle(fontSize: 22.0),
+              ),
               accountEmail: Text("ruchisoni101@gmail.com"),
-              currentAccountPicture: Image.asset("account.png",),
-
+              currentAccountPicture: Image.asset(
+                "account.png",
+              ),
             ),
             ListTile(
               leading: Icon(Icons.book),
@@ -169,139 +175,161 @@ class _BookstoreFrontPageState extends State<BookstoreFrontPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.builder(
-                    itemBuilder: (context, i) => Container(
-                          padding: EdgeInsets.all(8.0),
-                          height: 200.0,
-                          child: Row(
-                            children: <Widget>[
-                              Image.network(booklist[i].ImgUrl),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 15.0, bottom: 15.0),
-                                child: Container(
-                                  width: 180.0,
-                                  padding: EdgeInsets.all(5.0),
-                                  decoration:
-                                      BoxDecoration(color: Colors.white),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(
-                                        booklist[i].Title,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          (booklist[i].Stars >= 1)
-                                              ? Icon(
-                                                  Icons.star,
-                                                  size: 15.0,
-                                                  color: Colors.yellow,
-                                                )
-                                              : (booklist[i].Stars == 0.5)
-                                                  ? Icon(
-                                                      Icons.star_half,
-                                                      size: 15.0,
-                                                      color: Colors.yellow,
-                                                    )
-                                                  : Icon(
-                                                      Icons.star_border,
-                                                      size: 15.0,
-                                                      color: Colors.yellow,
-                                                    ),
-                                          (booklist[i].Stars >= 2)
-                                              ? Icon(
-                                                  Icons.star,
-                                                  size: 15.0,
-                                                  color: Colors.yellow,
-                                                )
-                                              : (booklist[i].Stars == 1.5)
-                                                  ? Icon(
-                                                      Icons.star_half,
-                                                      size: 15.0,
-                                                      color: Colors.yellow,
-                                                    )
-                                                  : Icon(
-                                                      Icons.star_border,
-                                                      size: 15.0,
-                                                      color: Colors.yellow,
-                                                    ),
-                                          (booklist[i].Stars >= 3)
-                                              ? Icon(
-                                                  Icons.star,
-                                                  size: 15.0,
-                                                  color: Colors.yellow,
-                                                )
-                                              : (booklist[i].Stars == 2.5)
-                                                  ? Icon(
-                                                      Icons.star_half,
-                                                      size: 15.0,
-                                                      color: Colors.yellow,
-                                                    )
-                                                  : Icon(
-                                                      Icons.star_border,
-                                                      size: 15.0,
-                                                      color: Colors.yellow,
-                                                    ),
-                                          (booklist[i].Stars >= 4)
-                                              ? Icon(
-                                                  Icons.star,
-                                                  size: 15.0,
-                                                  color: Colors.yellow,
-                                                )
-                                              : (booklist[i].Stars == 3.5)
-                                                  ? Icon(
-                                                      Icons.star_half,
-                                                      size: 15.0,
-                                                      color: Colors.yellow,
-                                                    )
-                                                  : Icon(
-                                                      Icons.star_border,
-                                                      size: 15.0,
-                                                      color: Colors.yellow,
-                                                    ),
-                                          (booklist[i].Stars >= 5)
-                                              ? Icon(
-                                                  Icons.star,
-                                                  size: 15.0,
-                                                  color: Colors.yellow,
-                                                )
-                                              : (booklist[i].Stars == 4.5)
-                                                  ? Icon(
-                                                      Icons.star_half,
-                                                      size: 15.0,
-                                                      color: Colors.yellow,
-                                                    )
-                                                  : Icon(
-                                                      Icons.star_border,
-                                                      size: 15.0,
-                                                      color: Colors.yellow,
-                                                    ),
-                                        ],
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          style: TextStyle(fontSize: 12.0),
-                                          children: [
-                                            TextSpan(
-                                              text: booklist[i]
-                                                  .Description
-                                                  .substring(0, 175),
-                                              style: TextStyle(
-                                                  color: Colors.black),
-                                            ),
-                                            TextSpan(
-                                                text: "...more",
-                                                style: TextStyle(
-                                                    color: Colors.blue))
+                    itemBuilder: (context, i) => InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BookPage(
+                                      book: booklist[i],
+                                    ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            height: 200.0,
+                            width: 125.0,
+                            child: Row(
+                              children: <Widget>[
+                                Image.network(
+                                  booklist[i].ImgUrl,
+                                  height: 200.0,
+                                  width: 125.0,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 15.0, bottom: 15.0),
+                                  child: Container(
+                                    width: 180.0,
+                                    padding: EdgeInsets.all(5.0),
+                                    decoration:
+                                        BoxDecoration(color: Colors.white),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          booklist[i].Title,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            (booklist[i].Stars >= 1)
+                                                ? Icon(
+                                                    Icons.star,
+                                                    size: 15.0,
+                                                    color: Colors.yellow,
+                                                  )
+                                                : (booklist[i].Stars == 0.5)
+                                                    ? Icon(
+                                                        Icons.star_half,
+                                                        size: 15.0,
+                                                        color: Colors.yellow,
+                                                      )
+                                                    : Icon(
+                                                        Icons.star_border,
+                                                        size: 15.0,
+                                                        color: Colors.yellow,
+                                                      ),
+                                            (booklist[i].Stars >= 2)
+                                                ? Icon(
+                                                    Icons.star,
+                                                    size: 15.0,
+                                                    color: Colors.yellow,
+                                                  )
+                                                : (booklist[i].Stars == 1.5)
+                                                    ? Icon(
+                                                        Icons.star_half,
+                                                        size: 15.0,
+                                                        color: Colors.yellow,
+                                                      )
+                                                    : Icon(
+                                                        Icons.star_border,
+                                                        size: 15.0,
+                                                        color: Colors.yellow,
+                                                      ),
+                                            (booklist[i].Stars >= 3)
+                                                ? Icon(
+                                                    Icons.star,
+                                                    size: 15.0,
+                                                    color: Colors.yellow,
+                                                  )
+                                                : (booklist[i].Stars == 2.5)
+                                                    ? Icon(
+                                                        Icons.star_half,
+                                                        size: 15.0,
+                                                        color: Colors.yellow,
+                                                      )
+                                                    : Icon(
+                                                        Icons.star_border,
+                                                        size: 15.0,
+                                                        color: Colors.yellow,
+                                                      ),
+                                            (booklist[i].Stars >= 4)
+                                                ? Icon(
+                                                    Icons.star,
+                                                    size: 15.0,
+                                                    color: Colors.yellow,
+                                                  )
+                                                : (booklist[i].Stars == 3.5)
+                                                    ? Icon(
+                                                        Icons.star_half,
+                                                        size: 15.0,
+                                                        color: Colors.yellow,
+                                                      )
+                                                    : Icon(
+                                                        Icons.star_border,
+                                                        size: 15.0,
+                                                        color: Colors.yellow,
+                                                      ),
+                                            (booklist[i].Stars >= 5)
+                                                ? Icon(
+                                                    Icons.star,
+                                                    size: 15.0,
+                                                    color: Colors.yellow,
+                                                  )
+                                                : (booklist[i].Stars == 4.5)
+                                                    ? Icon(
+                                                        Icons.star_half,
+                                                        size: 15.0,
+                                                        color: Colors.yellow,
+                                                      )
+                                                    : Icon(
+                                                        Icons.star_border,
+                                                        size: 15.0,
+                                                        color: Colors.yellow,
+                                                      ),
                                           ],
                                         ),
-                                      ),
-                                    ],
+                                        RichText(
+                                          text: TextSpan(
+                                            style: TextStyle(fontSize: 12.0),
+                                            children: [
+                                              TextSpan(
+                                                text: (booklist[i]
+                                                            .Description
+                                                            .length >
+                                                        175)
+                                                    ? booklist[i]
+                                                        .Description
+                                                        .substring(0, 175)
+                                                    : booklist[i].Description,
+                                                style: TextStyle(
+                                                    color: Colors.black),
+                                              ),
+                                              TextSpan(
+                                                  text: "...more",
+                                                  style: TextStyle(
+                                                      color: Colors.blue))
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                     shrinkWrap: true,

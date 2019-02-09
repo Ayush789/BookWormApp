@@ -1,6 +1,9 @@
 import 'package:bookshopapp/Pages/bookpage.dart';
+import 'package:bookshopapp/Pages/results.dart';
 import 'package:bookshopapp/model/book.dart';
 import 'package:flutter/material.dart';
+import 'package:bookshopapp/model/data.dart';
+
 
 class SearchPage extends StatefulWidget {
   @override
@@ -16,15 +19,21 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          String url="http://goole.com?";
+          String url = "http://goole.com?";
 
-          for(int i=0;i<selectedList.length;i++){
-            if(selectedList[i]){
-              url+="&id=${booklist[i].Id}";
+          for (int i = 0; i < selectedList.length; i++) {
+            if (selectedList[i]) {
+              url += "&id=${booklist[i].Id}";
             }
           }
 
           print(url);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ResultsPage(
+                        resultList: booklist,
+                      )));
         },
         label: Text("Search"),
         icon: Icon(Icons.search),
@@ -32,7 +41,22 @@ class _SearchPageState extends State<SearchPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: Color(0xFF260000),
       body: ListView(
-        children: booksToCols(booklist),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              "Which of the following would you like similar books....",
+              style: TextStyle(
+                fontSize: 20.0,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Column(
+            children: booksToCols(booklist),
+          )
+        ],
       ),
     );
   }
