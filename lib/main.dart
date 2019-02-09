@@ -14,6 +14,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Color(0xFF260000),
+      ),
       debugShowCheckedModeBanner: false,
       home: BookstoreFrontPage(),
     );
@@ -29,11 +32,31 @@ class _BookstoreFrontPageState extends State<BookstoreFrontPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Text("Ruchi Soni",style: TextStyle(fontSize: 22.0),),
+              accountEmail: Text("ruchisoni101@gmail.com"),
+              currentAccountPicture: Image.asset("account.png",),
+
+            ),
+            ListTile(
+              leading: Icon(Icons.book),
+              title: Text("Your Books"),
+            )
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPage()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => SearchPage()));
         },
-        child: Icon(Icons.search,size: 35.0,),
+        child: Icon(
+          Icons.search,
+          size: 35.0,
+        ),
       ),
       backgroundColor: Color(0xFF260000),
       body: Stack(
@@ -99,8 +122,12 @@ class _BookstoreFrontPageState extends State<BookstoreFrontPage> {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: (booklist[i].Availible)?Icon(Icons.check_circle,color: Colors.green
-                                                ,):Icon(Icons.cancel),
+                                              child: (booklist[i].Availible)
+                                                  ? Icon(
+                                                      Icons.check_circle,
+                                                      color: Colors.green,
+                                                    )
+                                                  : Icon(Icons.cancel),
                                             ),
                                           ),
                                         ],
