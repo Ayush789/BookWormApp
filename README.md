@@ -8,8 +8,7 @@
 ## Inspiration 
 Character Interaction Graphs provide a way for us to look into the narrative structure of book and dynamics between characters.
 
-<iframe src="Screenshots/HP_graph.html" width=520 height=520 >
-</iframe>
+<img src="Screenshots/hp_graph.png">
 
 They also provide an excellent opportunity to compare different genres of books. The shapes of graphs of three books Harry Potter, Lord of the Rings and Pride and Prejudice are shown below:
 
